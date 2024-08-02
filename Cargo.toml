@@ -3,6 +3,9 @@ name = "count-md"
 version = "0.1.0"
 edition = "2021"
 license = "BlueOak-1.0.0"
+description = "A simple, configurable command-line tool and Rust library for Unicode-aware, Markdown-aware, HTML-aware word counting in Markdown documents"
+authors = ["Chris Krycho <hello@chriskrycho.com>"]
+repository = "https://github.com/chriskrycho/count-md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

@@ -1,12 +1,8 @@
 # count-md
 
-A simple, configurable command-line tool and Rust library for counting the text in Markdown documents, which is:
+A simple, configurable command-line tool and Rust library for Unicode-aware, Markdown-aware, HTML-aware word counting in Markdown documents.
 
-- Unicode-aware
-- Markdown-aware
-- HTML-aware
-
-That is: it will correctly count words in a Unicode-aware way, *without* incorrectly including Markdown syntax or HTML tags. It can include or exclude content like blockquotes, footnotes, code blocks, and so on, and ships with reasonable defaults out of the box for each!
+That is: this tool will correctly count words in a Unicode-aware way, *without* incorrectly including Markdown syntax or HTML tags. It can include or exclude content like blockquotes, footnotes, code blocks, and so on, and ships with reasonable defaults out of the box for each!
 
 ## Example
 
