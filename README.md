@@ -4,6 +4,29 @@ A simple, configurable command-line tool and Rust library for Unicode-aware, Mar
 
 That is: this tool will correctly count words in a Unicode-aware way, *without* incorrectly including Markdown syntax or HTML tags. It can include or exclude content like blockquotes, footnotes, code blocks, and so on, and ships with reasonable defaults out of the box for each!
 
+## Install
+
+To get the command line tool:
+
+```sh
+cargo install count-md
+```
+
+To use the library:
+
+- On the CLI:
+
+    ```sh
+    cargo add count-md
+    ```
+
+- In Cargo.toml:
+
+    ```toml
+    [dependencies]
+    count-md = "0.1"
+    ```
+
 ## Example
 
 You might have a file with content like this:
