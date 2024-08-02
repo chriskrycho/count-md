@@ -1,0 +1,17 @@
+[package]
+name = "count-md"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bitflags = "2.5.0"
+clap = { version = "4.5.4", features = ["derive"] }
+clap_complete = "4.5.2"
+notify = { version = "6.1.1" }
+pulldown-cmark = { version = "0.10.2", features = ["simd"] }
+rayon = "1.10.0"
+thiserror = "1.0.61"
+unicode-segmentation = "1.11.0"
+xmlparser = "0.13.6"
