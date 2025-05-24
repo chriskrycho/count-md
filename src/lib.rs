@@ -1,3 +1,5 @@
+#![doc = include_str!("../README.md")]
+
 use bitflags::bitflags;
 use pulldown_cmark::{Event, Options as CmarkOptions, Parser, Tag, TagEnd};
 use unicode_segmentation::UnicodeSegmentation;
@@ -10,6 +12,19 @@ pub fn count(text: &str) -> u64 {
 
 /// Count some Markdown, using the supplied [`Options`].
 pub fn count_with_options(text: &str, options: Options) -> u64 {
+    // Turn on everything…
+    let cmark_options = CmarkOptions::all()
+        // …then turn off *old* footnotes…
+        & !CmarkOptions::ENABLE_OLD_FOOTNOTES
+        // …and finally turn back on *new* footnotes.
+        | CmarkOptions::ENABLE_FOOTNOTES;
+
+    let mut parser = Parser::new_ext(text, cmark_options);
+
+    count_with_options_and_parser(options, parser.by_ref())
+}
+
+pub fn count_with_options_and_parser(options: Options, parser: &mut Parser) -> u64 {
     let mut state = State {
         in_code_block: false,
         blockquote_level: 0,
@@ -18,15 +33,6 @@ pub fn count_with_options(text: &str, options: Options) -> u64 {
         in_table: false,
         in_heading: false,
     };
-
-    // Turn on everything…
-    let cmark_options = CmarkOptions::all()
-        // …then turn off *old* footnotes…
-        & !CmarkOptions::ENABLE_OLD_FOOTNOTES
-        // …and finally turn back on *new* footnotes.
-        | CmarkOptions::ENABLE_FOOTNOTES;
-
-    let parser = Parser::new_ext(text, cmark_options);
 
     // TODO: check whether items other than blockquotes can be nested!
     let mut count = 0;
@@ -47,7 +53,7 @@ pub fn count_with_options(text: &str, options: Options) -> u64 {
 
             Start(tag) => match tag {
                 Tag::CodeBlock(_) => state.in_code_block = true,
-                Tag::BlockQuote => state.blockquote_level += 1,
+                Tag::BlockQuote(_) => state.blockquote_level += 1,
                 Tag::MetadataBlock(_) => state.in_metadata_block = true,
                 Tag::FootnoteDefinition(_) => state.in_footnote = true,
                 Tag::Table(_) => state.in_table = true,
@@ -57,7 +63,7 @@ pub fn count_with_options(text: &str, options: Options) -> u64 {
 
             End(tag) => match tag {
                 TagEnd::CodeBlock => state.in_code_block = false,
-                TagEnd::BlockQuote => state.blockquote_level -= 1,
+                TagEnd::BlockQuote(_) => state.blockquote_level -= 1,
                 TagEnd::MetadataBlock(_) => state.in_metadata_block = false,
                 TagEnd::FootnoteDefinition => state.in_footnote = false,
                 TagEnd::Table => state.in_table = false,
@@ -74,6 +80,10 @@ pub fn count_with_options(text: &str, options: Options) -> u64 {
                     }
                 }
             }
+
+            // TODO: add support for these in some sensible-ish way!
+            InlineMath(_) => { /* unimplemented */ }
+            DisplayMath(_) => { /* unimplemented */ }
 
             // None of these contribute to the final count.
             InlineHtml(_tag) => {}

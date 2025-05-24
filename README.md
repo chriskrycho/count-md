@@ -9,7 +9,7 @@ That is: this tool will correctly count words in a Unicode-aware way, *without* 
 To get the command line tool:
 
 ```sh
-cargo install count-md
+cargo install count-md --features="cli"
 ```
 
 To use the library:
@@ -50,7 +50,7 @@ Support for including or or excluding the following Markdown features:
 - [x] Headings
 - [x] Blockquotes
     - [x] Nested blockquotes
-    - [ ] Admonitions[^admonitions]
+    - [x] Admonitions[^admonitions]
 - [x] Code blocks
 - [x] Inline code
 - [ ] Block HTML 🚧 **Partial**
@@ -62,7 +62,11 @@ Support for including or or excluding the following Markdown features:
 
 ## Library
 
-The core functionality here can be used as a Rust library.[^c] There are two main entry points:
+The core functionality here can be used as a Rust library.[^c]
+
+### Entry points
+
+There are two main entry points:
 
 - `count`: accepts a `&str` and counts it with the default set of options, equivalent to running `count-md` with zero options on the command line.
 
@@ -78,5 +82,9 @@ The core functionality here can be used as a Rust library.[^c] There are two mai
         ```
 
 See the documentation for more!
+
+### Feature flags
+
+The CLI is behind a feature flag so you can use this without installing the CLI’s dependencies. To enable it, set `features = ["CLI"]`.
 
 [^c]: In the future, I may also supply C bindings, but those need quite a bit of vetting before I am comfortable doing that!
